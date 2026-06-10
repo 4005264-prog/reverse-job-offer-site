@@ -34,8 +34,6 @@ type Question =
       options: string[];
     };
 
-const googleFormUrl = "https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM";
-
 const initialAnswers: Answers = {
   concern: "",
   dependence: "",
@@ -486,8 +484,8 @@ export default function Home() {
                 "作った求人票は、はじめのメモです。\n次は、何を増やすかを決める番です。\n\n仕事・収入・家族・スキル・不安を整理して、次の選択肢を1枚のPDFにまとめる One More Option Map を準備しています。"
               }
             </p>
-            <a href={googleFormUrl} target="_blank" rel="noreferrer" className="cta-link">
-              個別Mapを申し込む
+            <a href="/map" className="cta-link">
+              個別Mapの案内を見る
             </a>
             <p className="small-note">現在はテスト版です。申込はGoogleフォームで受け付けています。</p>
           </section>
