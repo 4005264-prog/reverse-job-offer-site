@@ -345,7 +345,7 @@ export default function Home() {
       {step === "intro" && (
         <section className="screen intro">
           <div className="office-slip">
-            <p className="office-kicker">余白庁 未来受付係</p>
+            <p className="office-kicker">未来の受付窓口</p>
             <p className="office-number">受付番号 0007</p>
           </div>
 
@@ -364,7 +364,7 @@ export default function Home() {
 
           <p className="lead">
             {
-              "人生の逆求人票は、未来の自分があなたに出している求人票を作る無料ジェネレーターです。\n\n今すぐ辞めるためではなく、もう一つの選択肢を考えるための小さな受付です。"
+              "人生の逆求人票は、あなたの答えをもとに、未来の自分から届く架空の求人票を作るページです。\n\n転職をすすめるものではありません。\n今の会社に残るとしても、ほかの選択肢を持てるように、考えを整理します。"
             }
           </p>
 
@@ -453,15 +453,15 @@ export default function Home() {
       {step === "result" && (
         <section className="result">
           <div className="office-slip">
-            <p className="office-kicker">余白庁 未来受付係</p>
+            <p className="office-kicker">未来の受付窓口</p>
             <p className="office-number">発行済</p>
           </div>
 
           <h1 className="result-title">求人票が届きました。</h1>
           <p className="note">
-            これは実在する求人ではありません。
+            これは本物の求人ではありません。
             <br />
-            未来の選択肢を考えるための診断コンテンツです。
+            あなたの答えをもとに、これから増やしたい選択肢を求人票の形にしたものです。
           </p>
 
           <article className="result-card">
@@ -486,7 +486,7 @@ export default function Home() {
             <h2>求人票を作ったあなたへ。</h2>
             <p className="cta-text">
               {
-                "求人票は、きっかけです。\nでも、本当に必要なのは、次に何を増やすかを決めることです。\n\n仕事・収入・家族・スキル・不安を整理して、次に増やすべき選択肢を1枚のPDFにする One More Option Map を準備しています。"
+                "作った求人票は、はじめのメモです。\n次は、何を増やすかを決める番です。\n\n仕事・収入・家族・スキル・不安を整理して、次の選択肢を1枚のPDFにまとめる One More Option Map を準備しています。"
               }
             </p>
             <a href={googleFormUrl} target="_blank" rel="noreferrer" className="cta-link">
