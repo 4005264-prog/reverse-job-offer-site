@@ -159,6 +159,58 @@ function listOrFallback(values: string[], fallback: string) {
   return values.length > 0 ? values.join("、") : fallback;
 }
 
+function dependenceLine(value: string) {
+  if (value === "かなり依存している") {
+    return "一つの場所に安心を預けすぎている自分に、やさしく気づけること。";
+  }
+
+  if (value === "少し依存している") {
+    return "今の場所を大切にしながら、外側にも小さな足場を作ること。";
+  }
+
+  if (value === "あまり依存していない") {
+    return "すでにある自由度を、次の選択肢へ変えていくこと。";
+  }
+
+  return "分からなさを責めず、情報を集めるところから始めること。";
+}
+
+function firstTaskFromOptions(options: string[], halfYear: string) {
+  if (options.includes("会社以外の収入源")) {
+    return "今週中に、会社以外で小さく収入につながりそうな方法を1つだけ調べること。";
+  }
+
+  if (options.includes("他社でも通用するスキル")) {
+    return "今週中に、今の経験が他社でどう言い換えられるかを3つ書き出すこと。";
+  }
+
+  if (options.includes("家族と話せる未来")) {
+    return "今週中に、半年後に増やしたい選択肢を家族へ1つだけ話してみること。";
+  }
+
+  if (options.includes("副業")) {
+    return "今週中に、登録や発信をしなくても調べられる副業例を3つ見ること。";
+  }
+
+  if (options.includes("転職の準備")) {
+    return "今週中に、転職するかどうかを決めずに求人を5件だけ眺めること。";
+  }
+
+  if (options.includes("学習習慣")) {
+    return "今週中に、15分だけ続けられる学習時間を1つ予定に入れること。";
+  }
+
+  if (options.includes("発信")) {
+    return "今週中に、誰にも見せなくていいので自分の経験を300字で書くこと。";
+  }
+
+  if (options.includes("時間の余裕")) {
+    return "今週中に、自分のためだけに使う30分を先に予定へ入れること。";
+  }
+
+  return `${halfYear}に近づくために、今週中に会社以外の選択肢を1つだけ調べること。`;
+}
+
 function buildOffer(answers: Answers) {
   const title = chooseJobTitle(answers);
   const concern = sentence(answers.concern, "今の会社だけに未来を預ける不安");
@@ -167,6 +219,8 @@ function buildOffer(answers: Answers) {
   const protect = listOrFallback(answers.protect, "安心感");
   const strengths = sentence(answers.strengths, "これまで積み重ねてきた経験");
   const halfYear = sentence(answers.halfYear, "会社に残るとしても、会社以外の選択肢を1つ持っている状態");
+  const dependence = answers.dependence || "分からない";
+  const firstTask = firstTaskFromOptions(answers.options, halfYear);
 
   return [
     "求人票",
@@ -177,7 +231,15 @@ function buildOffer(answers: Answers) {
     "募集元：",
     "半年後のあなた",
     "",
+    "申請内容：",
+    `いちばんの不安：${concern}`,
+    `守りたいもの：${protect}`,
+    `増やしたい選択肢：${options}`,
+    `使えそうな経験：${strengths}`,
+    `半年後の希望：${halfYear}`,
+    "",
     "仕事内容：",
+    `「${concern}」を一人で抱えたままにしないこと。`,
     "今の仕事を続けながら、外の世界を少しずつ見ること。",
     `${quitPattern}から、静かに距離を取ること。`,
     `${protect}を守るために、${options}を増やすこと。`,
@@ -185,10 +247,11 @@ function buildOffer(answers: Answers) {
     "必須条件：",
     "今すぐ辞めようとしないこと。",
     "でも、外を見ることを後回しにしないこと。",
-    `${concern}をごまかさず、言葉にすること。`,
+    dependenceLine(dependence),
     "",
     "歓迎条件：",
     `${strengths}を、今の場所だけで終わらせないこと。`,
+    `${halfYear}という希望を、まだ小さくても消さないこと。`,
     "小さく試すことを怖がりすぎないこと。",
     "",
     "勤務地：",
@@ -205,7 +268,7 @@ function buildOffer(answers: Answers) {
     "今日から7日間。",
     "",
     "最初の仕事：",
-    `${halfYear}に近づくために、今週中に会社以外の選択肢を1つだけ調べること。`
+    firstTask
   ].join("\n");
 }
 
@@ -282,7 +345,7 @@ export default function Home() {
       {step === "intro" && (
         <section className="screen intro">
           <div className="office-slip">
-            <p className="office-kicker">天国市 未来選択課</p>
+            <p className="office-kicker">余白庁 未来受付係</p>
             <p className="office-number">受付番号 0007</p>
           </div>
 
@@ -304,12 +367,6 @@ export default function Home() {
               "人生の逆求人票は、未来の自分があなたに出している求人票を作る無料ジェネレーターです。\n\n今すぐ辞めるためではなく、もう一つの選択肢を考えるための小さな受付です。"
             }
           </p>
-
-          <div className="counter-card">
-            <span>7問</span>
-            <span>無料</span>
-            <span>保存なし</span>
-          </div>
 
           <button type="button" onClick={() => setStep("form")} className="paper-button primary">
             求人票を作る
@@ -396,7 +453,7 @@ export default function Home() {
       {step === "result" && (
         <section className="result">
           <div className="office-slip">
-            <p className="office-kicker">天国市 未来選択課</p>
+            <p className="office-kicker">余白庁 未来受付係</p>
             <p className="office-number">発行済</p>
           </div>
 

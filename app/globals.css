@@ -150,30 +150,6 @@ button {
   white-space: pre-line;
 }
 
-.counter-card {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 1.65rem;
-  overflow: hidden;
-  border: 1px solid rgba(122, 144, 155, 0.22);
-  border-radius: 0.9rem;
-  background: rgba(255, 255, 255, 0.54);
-}
-
-.counter-card span {
-  min-width: 0;
-  padding: 0.9rem 0.4rem;
-  border-right: 1px solid rgba(122, 144, 155, 0.18);
-  color: #526772;
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.counter-card span:last-child {
-  border-right: 0;
-}
-
 .paper-button {
   display: inline-flex;
   align-items: center;
@@ -195,7 +171,7 @@ button {
 }
 
 .paper-button.primary {
-  margin-top: 1.55rem;
+  margin-top: 1.9rem;
   border: 1px solid #8aa4ad;
   background: #607b86;
   color: #fffdf7;
