@@ -179,7 +179,7 @@ function buildOffer(answers: Answers) {
     "",
     "仕事内容：",
     "今の仕事を続けながら、外の世界を少しずつ見ること。",
-    `${quitPattern}から距離を取ること。`,
+    `${quitPattern}から、静かに距離を取ること。`,
     `${protect}を守るために、${options}を増やすこと。`,
     "",
     "必須条件：",
@@ -219,7 +219,7 @@ function CopyButton({ text, children }: { text: string; children: React.ReactNod
   }
 
   return (
-    <button type="button" onClick={copyText} className="copy-button">
+    <button type="button" onClick={copyText} className="paper-button secondary">
       {copied ? "コピーしました" : children}
     </button>
   );
@@ -276,9 +276,16 @@ export default function Home() {
 
   return (
     <main className="app">
+      <div className="soft-cloud cloud-a" />
+      <div className="soft-cloud cloud-b" />
+
       {step === "intro" && (
         <section className="screen intro">
-          <p className="eyebrow">人生の逆求人票</p>
+          <div className="office-slip">
+            <p className="office-kicker">天国市 未来選択課</p>
+            <p className="office-number">受付番号 0007</p>
+          </div>
+
           <h1 className="hero-title">
             会社を辞めたい
             <br />
@@ -291,17 +298,20 @@ export default function Home() {
               未来を預けたくない。
             </span>
           </h1>
+
           <p className="lead">
             {
-              "人生の逆求人票は、\n未来の自分があなたに出している求人票を作る無料ジェネレーターです。\n\n今すぐ辞めるためではなく、\nもう一つの選択肢を考えるための小さな診断です。"
+              "人生の逆求人票は、未来の自分があなたに出している求人票を作る無料ジェネレーターです。\n\n今すぐ辞めるためではなく、もう一つの選択肢を考えるための小さな受付です。"
             }
           </p>
-          <div className="stats">
-            <span className="stat">7問</span>
-            <span className="stat">無料</span>
-            <span className="stat">保存なし</span>
+
+          <div className="counter-card">
+            <span>7問</span>
+            <span>無料</span>
+            <span>保存なし</span>
           </div>
-          <button type="button" onClick={() => setStep("form")} className="primary-button">
+
+          <button type="button" onClick={() => setStep("form")} className="paper-button primary">
             求人票を作る
           </button>
         </section>
@@ -309,16 +319,16 @@ export default function Home() {
 
       {step === "form" && (
         <section className="screen form-screen">
-          <header>
+          <header className="form-header">
             <div className="topbar">
               <button type="button" onClick={back} className="back-button">
                 ← 戻る
               </button>
               <div className="progress-copy">
                 <p className="question-count">
-                  Question {current + 1} / {questions.length}
+                  受付 {current + 1} / {questions.length}
                 </p>
-                <p className="progress-number">{progress}% complete</p>
+                <p className="progress-number">{progress}% 記入済み</p>
               </div>
             </div>
             <div className="progress-track">
@@ -326,67 +336,70 @@ export default function Home() {
             </div>
           </header>
 
-          <div className="question-area">
-            <div>
-              <p className="section-label">future job brief</p>
-              <h2 className="question-title">{question.label}</h2>
-              <div className="input-zone">
-                {question.type === "textarea" && (
-                  <textarea
-                    value={answers[question.id] as string}
-                    onChange={(event) => updateText(question.id, event.target.value)}
-                    placeholder={question.placeholder}
-                    rows={6}
-                    className="textarea"
-                  />
-                )}
+          <div className="question-paper">
+            <p className="section-label">記入欄</p>
+            <h2 className="question-title">{question.label}</h2>
 
-                {question.type === "select" && (
-                  <div className="option-grid">
-                    {question.options.map((option) => (
+            <div className="input-zone">
+              {question.type === "textarea" && (
+                <textarea
+                  value={answers[question.id] as string}
+                  onChange={(event) => updateText(question.id, event.target.value)}
+                  placeholder={question.placeholder}
+                  rows={6}
+                  className="textarea"
+                />
+              )}
+
+              {question.type === "select" && (
+                <div className="option-grid">
+                  {question.options.map((option) => (
+                    <button
+                      type="button"
+                      key={option}
+                      onClick={() => updateText(question.id, option)}
+                      className={`option-button ${answers.dependence === option ? "selected" : ""}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {question.type === "checkbox" && (
+                <div className="option-grid two">
+                  {question.options.map((option) => {
+                    const values = answers[question.id];
+                    const selected = Array.isArray(values) && values.includes(option);
+                    return (
                       <button
                         type="button"
                         key={option}
-                        onClick={() => updateText(question.id, option)}
-                        className={`option-button ${answers.dependence === option ? "selected" : ""}`}
+                        onClick={() => toggleValue(question.id, option)}
+                        className={`option-button ${selected ? "selected" : ""}`}
                       >
                         {option}
                       </button>
-                    ))}
-                  </div>
-                )}
-
-                {question.type === "checkbox" && (
-                  <div className="option-grid two">
-                    {question.options.map((option) => {
-                      const values = answers[question.id];
-                      const selected = Array.isArray(values) && values.includes(option);
-                      return (
-                        <button
-                          type="button"
-                          key={option}
-                          onClick={() => toggleValue(question.id, option)}
-                          className={`option-button ${selected ? "selected" : ""}`}
-                        >
-                          {option}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
-          <button type="button" onClick={next} className="primary-button">
-            {current === questions.length - 1 ? "求人票を生成する" : "次へ"} →
+          <button type="button" onClick={next} className="paper-button primary">
+            {current === questions.length - 1 ? "求人票を発行する" : "次の窓口へ"} →
           </button>
         </section>
       )}
 
       {step === "result" && (
         <section className="result">
-          <p className="eyebrow">人生の逆求人票</p>
+          <div className="office-slip">
+            <p className="office-kicker">天国市 未来選択課</p>
+            <p className="office-number">発行済</p>
+          </div>
+
           <h1 className="result-title">求人票が届きました。</h1>
           <p className="note">
             これは実在する求人ではありません。
@@ -394,10 +407,11 @@ export default function Home() {
             未来の選択肢を考えるための診断コンテンツです。
           </p>
 
-          <article className="card">
+          <article className="result-card">
+            <div className="stamp">受理</div>
             <div className="card-head">
-              <p className="eyebrow">fictional job posting</p>
-              <p className="card-sub">from your future self</p>
+              <p className="section-label">未来の自分より</p>
+              <p className="card-sub">fictional job posting</p>
             </div>
             <pre className="offer">{offer}</pre>
           </article>
@@ -405,17 +419,17 @@ export default function Home() {
           <div className="actions">
             <CopyButton text={offer}>コピーする</CopyButton>
             <CopyButton text={shareText}>Xでシェア文をコピー</CopyButton>
-            <button type="button" onClick={restart} className="ghost-button">
+            <button type="button" onClick={restart} className="paper-button secondary">
               もう一度作る
             </button>
           </div>
 
           <section className="cta">
-            <p className="eyebrow">One More Option Map</p>
+            <p className="section-label">次の手続き</p>
             <h2>求人票を作ったあなたへ。</h2>
             <p className="cta-text">
               {
-                "求人票は、きっかけです。\nでも、本当に必要なのは、次に何を増やすかを決めることです。\n\n仕事・収入・家族・スキル・不安を整理して、\n次に増やすべき選択肢を1枚のPDFにする\nOne More Option Mapを準備しています。"
+                "求人票は、きっかけです。\nでも、本当に必要なのは、次に何を増やすかを決めることです。\n\n仕事・収入・家族・スキル・不安を整理して、次に増やすべき選択肢を1枚のPDFにする One More Option Map を準備しています。"
               }
             </p>
             <a href={googleFormUrl} target="_blank" rel="noreferrer" className="cta-link">
