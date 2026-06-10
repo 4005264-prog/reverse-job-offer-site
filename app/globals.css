@@ -363,13 +363,13 @@ button {
 .result-card {
   position: relative;
   margin-top: 1.65rem;
-  padding: 1.25rem;
-  border: 1px solid rgba(148, 118, 104, 0.36);
+  padding: 1.15rem;
+  border: 1px solid rgba(132, 151, 158, 0.28);
   border-radius: 1rem;
   background:
-    linear-gradient(rgba(255, 253, 247, 0.92), rgba(255, 253, 247, 0.92)),
-    repeating-linear-gradient(0deg, transparent 0, transparent 2.25rem, rgba(148, 118, 104, 0.1) 2.25rem, rgba(148, 118, 104, 0.1) calc(2.25rem + 1px));
-  box-shadow: 0 22px 70px rgba(99, 117, 127, 0.16);
+    linear-gradient(rgba(255, 253, 247, 0.95), rgba(255, 253, 247, 0.95)),
+    repeating-linear-gradient(0deg, transparent 0, transparent 2rem, rgba(132, 151, 158, 0.07) 2rem, rgba(132, 151, 158, 0.07) calc(2rem + 1px));
+  box-shadow: 0 20px 54px rgba(99, 117, 127, 0.13);
 }
 
 .stamp {
@@ -378,14 +378,14 @@ button {
   right: 1rem;
   display: grid;
   place-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
-  border: 2px solid rgba(151, 78, 76, 0.62);
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 1.5px solid rgba(151, 78, 76, 0.5);
   border-radius: 50%;
-  color: rgba(151, 78, 76, 0.8);
-  font-size: 0.9rem;
+  color: rgba(151, 78, 76, 0.72);
+  font-size: 0.78rem;
   font-weight: 800;
-  transform: rotate(-8deg);
+  transform: rotate(-6deg);
 }
 
 .card-head {
@@ -405,9 +405,12 @@ button {
   white-space: pre-wrap;
   color: #35414b;
   font-family:
-    "Yu Mincho", "Hiragino Mincho ProN", "Yu Gothic", "Meiryo", serif;
-  font-size: clamp(1.1rem, 5.2vw, 1.75rem);
-  line-height: 1.86;
+    "Yu Gothic", "Hiragino Kaku Gothic ProN", "Meiryo", ui-sans-serif,
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(0.98rem, 4.3vw, 1.18rem);
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: 0;
 }
 
 .actions {
