@@ -54,13 +54,13 @@ export default function MapApplicationForm() {
       <p className="section-label">申込受付</p>
       <h2 id="application-title">個別Mapを申し込む</h2>
       <p className="application-lead">
-        必要なことだけ送ってください。受付後、確認のメールをお送りします。
+        入力内容をもとに、個別PDFを作成してメールでお送りします。
       </p>
 
       <form onSubmit={submitApplication} className="application-form">
         <label className="form-field">
           <span>ニックネーム</span>
-          <input name="name" type="text" autoComplete="name" placeholder="ニックネームでも大丈夫です" required />
+          <input name="name" type="text" autoComplete="name" required />
         </label>
 
         <label className="form-field">
