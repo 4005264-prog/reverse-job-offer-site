@@ -1,4 +1,4 @@
-const googleFormUrl = "https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM";
+import MapApplicationForm from "./MapApplicationForm";
 
 const deliverables = [
   "やめたい生き方と、残したいものの整理",
@@ -8,9 +8,9 @@ const deliverables = [
 ];
 
 const steps = [
-  ["1", "Googleフォームに記入", "いま退職したい生き方と、残したいものを送ってください。"],
-  ["2", "内容を読んで整理", "大きな決断を急がせず、明日から少し軽くなる形に整えます。"],
-  ["3", "PDFで受け取り", "あとから見返せる1枚のMapとしてお返しします。"]
+  ["1", "このページで申込", "いま退職したい生き方と、残したいものを送ってください。"],
+  ["2", "受付窓口に届く", "内容はメールで通知され、あとから落ち着いて読める形で届きます。"],
+  ["3", "PDFで受け取り", "大きな決断を急がせず、明日から少し軽くなる1枚のMapとしてお返しします。"]
 ];
 
 export default function MapPage() {
@@ -67,10 +67,8 @@ export default function MapPage() {
           </p>
         </section>
 
-        <a href={googleFormUrl} target="_blank" rel="noreferrer" className="cta-link">
-          Googleフォームで申し込む
-        </a>
-        <p className="small-note">現在はテスト版です。申込はGoogleフォームで受け付けています。</p>
+        <MapApplicationForm />
+
         <a href="/" className="back-home-link">
           退職届の作成へ戻る
         </a>
