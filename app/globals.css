@@ -33,6 +33,16 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(124, 169, 177, 0.58);
+  outline-offset: 3px;
+}
+
 ::selection {
   background: #d8e9ea;
 }
@@ -182,6 +192,13 @@ button {
   background: #536f7b;
 }
 
+.paper-button.primary:disabled {
+  border-color: rgba(122, 144, 155, 0.22);
+  background: rgba(137, 153, 160, 0.5);
+  color: rgba(255, 253, 247, 0.82);
+  box-shadow: none;
+}
+
 .paper-button.secondary {
   border: 1px solid rgba(122, 144, 155, 0.28);
   background: rgba(255, 255, 255, 0.7);
@@ -281,6 +298,13 @@ button {
   letter-spacing: 0;
 }
 
+.question-sub {
+  margin: 0.75rem 0 0;
+  color: #687c86;
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
 .input-zone {
   margin-top: 1.35rem;
 }
@@ -319,7 +343,7 @@ button {
 }
 
 .option-button {
-  min-height: 3.4rem;
+  min-height: 3.25rem;
   border: 1px solid rgba(122, 144, 155, 0.25);
   border-radius: 0.9rem;
   background: rgba(255, 255, 255, 0.68);
@@ -327,7 +351,7 @@ button {
   padding: 0.75rem 0.85rem;
   font-size: 0.92rem;
   font-weight: 650;
-  line-height: 1.45;
+  line-height: 1.5;
   text-align: left;
 }
 

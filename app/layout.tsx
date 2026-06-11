@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "人生の逆求人票",
-  description: "未来の自分があなたに出している求人票を作る無料ジェネレーターです。"
+  title: "人生の退職代行",
+  description: "やめたい生き方の退職を、未来の受付窓口がそっと承る診断ページです。"
 };
 
 export const viewport: Viewport = {

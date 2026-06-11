@@ -5,265 +5,256 @@ import { useMemo, useState } from "react";
 type Step = "intro" | "form" | "result";
 
 type Answers = {
-  concern: string;
-  dependence: string;
-  protect: string[];
-  quitPattern: string;
-  options: string[];
-  strengths: string;
-  halfYear: string;
+  target: string;
+  drains: string[];
+  feeling: string;
+  relationships: string[];
+  escape: string;
+  keep: string[];
+  tomorrow: string;
 };
 
-type Question =
-  | {
-      id: keyof Answers;
-      label: string;
-      type: "textarea";
-      placeholder: string;
-    }
-  | {
-      id: keyof Answers;
-      label: string;
-      type: "select";
-      options: string[];
-    }
-  | {
-      id: keyof Answers;
-      label: string;
-      type: "checkbox";
-      options: string[];
-    };
+type Question = {
+  id: keyof Answers;
+  label: string;
+  sub?: string;
+  type: "single" | "multi";
+  options: string[];
+};
 
 const initialAnswers: Answers = {
-  concern: "",
-  dependence: "",
-  protect: [],
-  quitPattern: "",
-  options: [],
-  strengths: "",
-  halfYear: ""
+  target: "",
+  drains: [],
+  feeling: "",
+  relationships: [],
+  escape: "",
+  keep: [],
+  tomorrow: ""
 };
 
 const questions: Question[] = [
   {
-    id: "concern",
-    label: "今の仕事や生活で、いちばん不安に感じていることは何ですか？",
-    type: "textarea",
-    placeholder: "例：このまま今の会社だけで生きていけるのか不安"
-  },
-  {
-    id: "dependence",
-    label: "今の会社や環境に、どれくらい依存していると感じますか？",
-    type: "select",
-    options: ["かなり依存している", "少し依存している", "あまり依存していない", "分からない"]
-  },
-  {
-    id: "protect",
-    label: "あなたが守りたいものは何ですか？",
-    type: "checkbox",
-    options: ["家族", "収入", "時間", "健康", "自分の可能性", "今の仕事", "安心感", "その他"]
-  },
-  {
-    id: "quitPattern",
-    label: "もう続けたくない生き方は何ですか？",
-    type: "textarea",
-    placeholder: "例：会社の評価だけで自分の価値を決める生き方"
-  },
-  {
-    id: "options",
-    label: "これから増やしたい選択肢は何ですか？",
-    type: "checkbox",
+    id: "target",
+    label: "いま、いちばん退職したい生き方はどれですか？",
+    sub: "まずは一つだけ選んでください。",
+    type: "single",
     options: [
-      "会社以外の収入源",
-      "他社でも通用するスキル",
-      "家族と話せる未来",
-      "副業",
-      "転職の準備",
-      "学習習慣",
-      "発信",
-      "時間の余裕",
-      "分からない"
+      "SNSを見て、他人の人生と比べ続ける生き方",
+      "コンビニや通販で、疲れをお金でごまかす生き方",
+      "元恋人や過去の失敗を、何度も頭の中で再生する生き方",
+      "仕事や学校の評価で、自分の価値を決める生き方",
+      "家族・恋人・友人の機嫌を、先回りして背負う生き方",
+      "ちゃんと休まず、平気なふりを続ける生き方",
+      "子育てや家事を一人で抱え込み、助けを求めない生き方"
     ]
   },
   {
-    id: "strengths",
-    label: "これまでの経験で、他でも使えそうなものは何ですか？",
-    type: "textarea",
-    placeholder: "例：接客、教える力、継続力、ITの知識、現場経験"
+    id: "drains",
+    label: "最近、あなたの時間や心を削っているものは？",
+    sub: "近いものをいくつでも選べます。",
+    type: "multi",
+    options: [
+      "寝る前のSNS",
+      "目的のない動画やショート動画",
+      "なんとなく買うコンビニ・カフェ・通販",
+      "既読・未読・返信のこと",
+      "将来のお金やキャリアの不安",
+      "夫婦・恋人との小さなすれ違い",
+      "育児・家事・仕事の終わらなさ"
+    ]
   },
   {
-    id: "halfYear",
-    label: "半年後、どんな状態になっていたいですか？",
-    type: "textarea",
-    placeholder: "例：今の会社に残るとしても、会社以外の選択肢を1つ持っていたい"
+    id: "feeling",
+    label: "その生き方を続けていると、どんな気持ちになりますか？",
+    type: "single",
+    options: [
+      "自分だけ置いていかれている感じ",
+      "何もしていないのに疲れている感じ",
+      "お金も時間も少しずつ漏れていく感じ",
+      "誰かに怒られそうで落ち着かない感じ",
+      "本音を言う前に飲み込んでしまう感じ",
+      "いい親・いいパートナーでいなきゃと思う感じ"
+    ]
+  },
+  {
+    id: "relationships",
+    label: "人との関係で、もうやめたいことは？",
+    sub: "恋愛、家族、夫婦、友人、職場のどれでも大丈夫です。",
+    type: "multi",
+    options: [
+      "嫌われないために、すぐ謝ること",
+      "相手の反応を見て、自分の予定を変えること",
+      "元恋人の近況を見に行ってしまうこと",
+      "夫婦や恋人なのに、一人で我慢すること",
+      "親や家族の期待を、自分の予定より優先すること",
+      "子どものためと言いながら、自分を消すこと"
+    ]
+  },
+  {
+    id: "escape",
+    label: "しんどい時、ついやってしまう逃げ方は？",
+    type: "single",
+    options: [
+      "SNSや動画を見続ける",
+      "甘いもの、酒、コンビニで気分を変える",
+      "眠れないまま考え続ける",
+      "予定を詰めて、感じないようにする",
+      "誰にも言わずに一人で処理する",
+      "大丈夫なふりをして笑う"
+    ]
+  },
+  {
+    id: "keep",
+    label: "退職したあとも、残したいものは何ですか？",
+    type: "multi",
+    options: [
+      "自分のペース",
+      "大切な人との時間",
+      "お金の安心",
+      "眠れる夜",
+      "好きなものを楽しむ気持ち",
+      "仕事や学びへの前向きさ",
+      "子どもや家族に向けるやさしさ"
+    ]
+  },
+  {
+    id: "tomorrow",
+    label: "明日から、どんな自分に戻りたいですか？",
+    type: "single",
+    options: [
+      "少しだけスマホから離れられる自分",
+      "小さな出費の前に、一度立ち止まれる自分",
+      "過去より今日の予定を見られる自分",
+      "相手の機嫌より、自分の本音を確認できる自分",
+      "全部を一人で抱えず、助けを一つ頼める自分",
+      "ちゃんと休むことに罪悪感を持たない自分"
+    ]
   }
 ];
 
 const shareText =
-  "未来の自分から、\n求人票が届きました。\n\n会社を辞めたいわけじゃない。\nでも、今の会社だけに未来を預けたくない。\n\n#人生の逆求人票";
+  "人生の退職代行に、\nやめたい生き方の退職をお願いしました。\n\nもう、全部を背負わなくていい。\n明日から少しだけ、自分に戻る。\n\n#人生の退職代行";
 
-function hasAny(value: string, words: string[]) {
-  return words.some((word) => value.includes(word));
-}
-
-function chooseJobTitle(answers: Answers) {
-  const text = `${answers.concern} ${answers.quitPattern} ${answers.strengths} ${answers.halfYear}`;
-
-  if (answers.options.includes("会社以外の収入源") || answers.options.includes("副業") || answers.protect.includes("収入")) {
-    return "収入源を一つにしない人";
+const targetProfiles: Record<string, { title: string; retired: string; reason: string; firstTask: string }> = {
+  "SNSを見て、他人の人生と比べ続ける生き方": {
+    title: "比較残業から退勤する人",
+    retired: "他人の投稿を、自分の遅れの証拠にする勤務",
+    reason: "見なくてもいい人生まで見すぎて、あなたの今日が薄くなっていたため",
+    firstTask: "寝る前のSNSを15分だけ短くし、代わりに明日の予定を一つだけ見ること。"
+  },
+  "コンビニや通販で、疲れをお金でごまかす生き方": {
+    title: "小さな浪費に休職届を出せる人",
+    retired: "疲れを全部、レジとカートに預ける勤務",
+    reason: "本当にほしかったのは物ではなく、少し休める時間だったため",
+    firstTask: "今日買う前に一度だけ立ち止まり、『これは休みの代わり？』と聞いてみること。"
+  },
+  "元恋人や過去の失敗を、何度も頭の中で再生する生き方": {
+    title: "過去の再放送を終了できる人",
+    retired: "終わった場面を、毎晩もう一度見に行く勤務",
+    reason: "反省は終わっていて、これ以上あなたを責める必要がないため",
+    firstTask: "思い出しそうになったら、今日やる小さな予定を一つだけ声に出すこと。"
+  },
+  "仕事や学校の評価で、自分の価値を決める生き方": {
+    title: "評価表の外へ帰る人",
+    retired: "点数、肩書き、反応だけで自分を査定する勤務",
+    reason: "評価は一部の情報であって、あなたそのものではないため",
+    firstTask: "今日できたことを、誰かの評価抜きで一つだけメモすること。"
+  },
+  "家族・恋人・友人の機嫌を、先回りして背負う生き方": {
+    title: "機嫌の係を辞める人",
+    retired: "相手の顔色を見て、自分の予定を後ろに下げる勤務",
+    reason: "やさしさと自己犠牲を、同じものにしなくていいため",
+    firstTask: "一つだけ、自分の予定を変えずに残すこと。"
+  },
+  "ちゃんと休まず、平気なふりを続ける生き方": {
+    title: "平気なふりを退職する人",
+    retired: "限界を感じても、まだ大丈夫と言い続ける勤務",
+    reason: "休むことは甘えではなく、明日を守る手続きだから",
+    firstTask: "今日は10分だけ、何もしない時間を予定として置くこと。"
+  },
+  "子育てや家事を一人で抱え込み、助けを求めない生き方": {
+    title: "全部ひとり係を降りる人",
+    retired: "家庭のことを、黙って一人で回し続ける勤務",
+    reason: "家族を大切にすることと、自分を消すことは別だから",
+    firstTask: "一つだけ、具体的な家事や育児を誰かに頼むこと。"
   }
+};
 
-  if (answers.protect.includes("家族") || answers.options.includes("家族と話せる未来")) {
-    return "家族を守るために逃げ道を作る人";
-  }
-
-  if (hasAny(text, ["評価", "価値", "肩書き"])) {
-    return "自分の価値を会社だけに預けない人";
-  }
-
-  if (hasAny(text, ["我慢", "無理", "耐える", "つらい"])) {
-    return "我慢を仕事にしない人";
-  }
-
-  if (hasAny(text, ["後回し", "自分の人生", "自分のため"])) {
-    return "自分の人生を後回しにしない人";
-  }
-
-  if (answers.options.includes("転職の準備") || answers.dependence === "かなり依存している") {
-    return "今の仕事を続けながら外を見る人";
-  }
-
-  if (answers.dependence === "分からない" || answers.options.includes("分からない")) {
-    return "情報不足を能力不足だと思わない人";
-  }
-
-  if (answers.options.includes("他社でも通用するスキル") || answers.options.includes("学習習慣")) {
-    return "会社に残っても選べる人";
-  }
-
-  if (hasAny(text, ["知らない", "外", "世界"])) {
-    return "見たことのない世界を見に行く人";
-  }
-
-  return "会社以外にも選択肢を持つ会社員";
-}
-
-function sentence(value: string, fallback: string) {
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed.replace(/[。.\s]+$/g, "") : fallback;
-}
-
-function listOrFallback(values: string[], fallback: string) {
+function selectedList(values: string[], fallback: string) {
   return values.length > 0 ? values.join("、") : fallback;
 }
 
-function dependenceLine(value: string) {
-  if (value === "かなり依存している") {
-    return "一つの場所に安心を預けすぎている自分に、やさしく気づけること。";
-  }
-
-  if (value === "少し依存している") {
-    return "今の場所を大切にしながら、外側にも小さな足場を作ること。";
-  }
-
-  if (value === "あまり依存していない") {
-    return "すでにある自由度を、次の選択肢へ変えていくこと。";
-  }
-
-  return "分からなさを責めず、情報を集めるところから始めること。";
+function answerValue(answers: Answers, id: keyof Answers) {
+  const value = answers[id];
+  if (Array.isArray(value)) return value.length > 0 ? value.join("、") : "";
+  return value;
 }
 
-function firstTaskFromOptions(options: string[], halfYear: string) {
-  if (options.includes("会社以外の収入源")) {
-    return "今週中に、会社以外で小さく収入につながりそうな方法を1つだけ調べること。";
-  }
-
-  if (options.includes("他社でも通用するスキル")) {
-    return "今週中に、今の経験が他社でどう言い換えられるかを3つ書き出すこと。";
-  }
-
-  if (options.includes("家族と話せる未来")) {
-    return "今週中に、半年後に増やしたい選択肢を家族へ1つだけ話してみること。";
-  }
-
-  if (options.includes("副業")) {
-    return "今週中に、登録や発信をしなくても調べられる副業例を3つ見ること。";
-  }
-
-  if (options.includes("転職の準備")) {
-    return "今週中に、転職するかどうかを決めずに求人を5件だけ眺めること。";
-  }
-
-  if (options.includes("学習習慣")) {
-    return "今週中に、15分だけ続けられる学習時間を1つ予定に入れること。";
-  }
-
-  if (options.includes("発信")) {
-    return "今週中に、誰にも見せなくていいので自分の経験を300字で書くこと。";
-  }
-
-  if (options.includes("時間の余裕")) {
-    return "今週中に、自分のためだけに使う30分を先に予定へ入れること。";
-  }
-
-  return `${halfYear}に近づくために、今週中に会社以外の選択肢を1つだけ調べること。`;
+function isSelected(answers: Answers, question: Question, option: string) {
+  const value = answers[question.id];
+  return Array.isArray(value) ? value.includes(option) : value === option;
 }
 
-function buildOffer(answers: Answers) {
-  const title = chooseJobTitle(answers);
-  const concern = sentence(answers.concern, "今の会社だけに未来を預ける不安");
-  const quitPattern = sentence(answers.quitPattern, "会社の評価だけで自分の価値を決める生き方");
-  const options = listOrFallback(answers.options, "会社以外の選択肢");
-  const protect = listOrFallback(answers.protect, "安心感");
-  const strengths = sentence(answers.strengths, "これまで積み重ねてきた経験");
-  const halfYear = sentence(answers.halfYear, "会社に残るとしても、会社以外の選択肢を1つ持っている状態");
-  const dependence = answers.dependence || "分からない";
-  const firstTask = firstTaskFromOptions(answers.options, halfYear);
+function chooseProfile(answers: Answers) {
+  return targetProfiles[answers.target] ?? targetProfiles[questions[0].options[0]];
+}
+
+function buildReason(answers: Answers) {
+  const profile = chooseProfile(answers);
+  const drains = selectedList(answers.drains, "毎日の小さな疲れ");
+  const relationships = selectedList(answers.relationships, "言葉にしづらい人間関係の負担");
+  return [
+    profile.reason,
+    `あわせて、「${drains}」と「${relationships}」が、静かに心の余白を減らしていたため。`
+  ].join("\n");
+}
+
+function buildRetirementNotice(answers: Answers) {
+  const profile = chooseProfile(answers);
+  const drains = selectedList(answers.drains, "毎日の小さな疲れ");
+  const relationships = selectedList(answers.relationships, "言葉にしづらい人間関係の負担");
+  const keep = selectedList(answers.keep, "自分のペース");
+  const feeling = answers.feeling || "何もしていないのに疲れている感じ";
+  const escape = answers.escape || "大丈夫なふりをして笑う";
+  const tomorrow = answers.tomorrow || "ちゃんと休むことに罪悪感を持たない自分";
 
   return [
-    "求人票",
+    "退職受理通知",
     "",
-    "募集職種：",
-    title,
+    "退職者：",
+    "今日までがんばってきたあなた",
     "",
-    "差出人：",
-    "少し先のあなた",
+    "退職対象：",
+    profile.retired,
     "",
-    "この求人が届いた理由：",
-    `あなたはいま、「${concern}」と感じています。`,
-    `それでも、守りたいものは「${protect}」。`,
-    `だから、今の場所をすぐに捨てるのではなく、「${options}」を少しずつ増やす仕事を募集します。`,
+    "退職理由：",
+    buildReason(answers),
     "",
-    "仕事内容：",
-    `・「${quitPattern}」を続けなくていい方法を探すこと。`,
-    `・「${strengths}」を、今の会社以外でも使える言葉に直すこと。`,
-    "・今の仕事を続けながら、外の世界を少しずつ見ること。",
+    "本日付で終了する業務：",
+    `・「${feeling}」を、あなたの性格のせいにすること。`,
+    `・「${escape}」だけで、しんどさを処理しようとすること。`,
+    `・「${drains}」に、今日の残り時間を全部渡すこと。`,
     "",
-    "必須条件：",
-    "・今すぐ答えを出そうとしないこと。",
-    "・でも、考えることまで後回しにしないこと。",
-    `・${dependenceLine(dependence)}`,
+    "引き継がなくていいもの：",
+    "・他人の人生の進み具合。",
+    "・返事が遅い理由の深読み。",
+    "・昔の自分への終わらないダメ出し。",
+    "・家庭や関係を守るために、自分だけが消える役目。",
     "",
-    "歓迎条件：",
-    `・「${halfYear}」という希望を、まだ小さくても消さないこと。`,
-    "・小さく試すことを怖がりすぎないこと。",
-    "・不安を、準備の合図として扱えること。",
+    "残していくもの：",
+    `・${keep}。`,
+    `・「${tomorrow}」に戻りたいという、小さくて本当の希望。`,
+    "・ちゃんと疲れたと言っていい権利。",
     "",
-    "勤務地：",
-    "今の会社。",
-    "自宅。",
-    "まだ見たことのない世界。",
+    "退職後の最初の手続き：",
+    profile.firstTask,
     "",
-    "報酬：",
-    "少し増えた安心感。",
-    "家族や自分に話せる未来。",
-    "会社に残るとしても、選べる自分。",
+    "受付窓口：",
+    "未来の受付窓口",
     "",
-    "試用期間：",
-    "今日から7日間。",
-    "",
-    "最初の仕事：",
-    firstTask
+    "備考：",
+    "これは現実の退職代行ではありません。",
+    "でも、やめたい生き方に名前をつけるための小さな手続きです。"
   ].join("\n");
 }
 
@@ -287,11 +278,12 @@ export default function Home() {
   const [step, setStep] = useState<Step>("intro");
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
-  const offer = useMemo(() => buildOffer(answers), [answers]);
+  const notice = useMemo(() => buildRetirementNotice(answers), [answers]);
   const question = questions[current];
+  const profile = chooseProfile(answers);
   const progress = Math.round(((current + 1) / questions.length) * 100);
 
-  function updateText(id: keyof Answers, value: string) {
+  function choose(id: keyof Answers, value: string) {
     setAnswers((currentAnswers) => ({ ...currentAnswers, [id]: value }));
   }
 
@@ -306,7 +298,22 @@ export default function Home() {
     });
   }
 
+  function answer(questionToAnswer: Question, option: string) {
+    if (questionToAnswer.type === "multi") {
+      toggleValue(questionToAnswer.id, option);
+      return;
+    }
+
+    choose(questionToAnswer.id, option);
+  }
+
+  function canGoNext() {
+    return answerValue(answers, question.id).length > 0;
+  }
+
   function next() {
+    if (!canGoNext()) return;
+
     if (current === questions.length - 1) {
       setStep("result");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -341,30 +348,30 @@ export default function Home() {
         <section className="screen intro">
           <div className="office-slip">
             <p className="office-kicker">未来の受付窓口</p>
-            <p className="office-number">受付番号 0007</p>
+            <p className="office-number">退職受付 0007</p>
           </div>
 
           <h1 className="hero-title">
-            会社を辞めたい
+            人生の
             <br />
-            わけじゃない。
+            退職代行。
             <span>
-              でも、
+              もう、
               <br />
-              今の会社だけに
+              やめたい生き方に
               <br />
-              未来を預けたくない。
+              辞表を出す。
             </span>
           </h1>
 
           <p className="lead">
             {
-              "人生の逆求人票は、あなたの答えをもとに、未来の自分から届く架空の求人票を作るページです。\n\n転職をすすめるものではありません。\n今の会社に残るとしても、ほかの選択肢を持てるように、考えを整理します。"
+              "SNSを見すぎること。\n小さな無駄遣いで疲れをごまかすこと。\n過去の恋や、家族や、仕事のことで自分を責め続けること。\n\nあなたがやめたい生き方の退職を、未来の受付窓口がそっと承ります。"
             }
           </p>
 
           <button type="button" onClick={() => setStep("form")} className="paper-button primary">
-            求人票を作る
+            退職を依頼する
           </button>
         </section>
       )}
@@ -380,7 +387,7 @@ export default function Home() {
                 <p className="question-count">
                   受付 {current + 1} / {questions.length}
                 </p>
-                <p className="progress-number">{progress}% 記入済み</p>
+                <p className="progress-number">{progress}% 確認済み</p>
               </div>
             </div>
             <div className="progress-track">
@@ -389,58 +396,31 @@ export default function Home() {
           </header>
 
           <div className="question-paper">
-            <p className="section-label">記入欄</p>
+            <p className="section-label">退職届の確認</p>
             <h2 className="question-title">{question.label}</h2>
+            {question.sub && <p className="question-sub">{question.sub}</p>}
 
             <div className="input-zone">
-              {question.type === "textarea" && (
-                <textarea
-                  value={answers[question.id] as string}
-                  onChange={(event) => updateText(question.id, event.target.value)}
-                  placeholder={question.placeholder}
-                  rows={6}
-                  className="textarea"
-                />
-              )}
-
-              {question.type === "select" && (
-                <div className="option-grid">
-                  {question.options.map((option) => (
+              <div className="option-grid">
+                {question.options.map((option) => {
+                  const selected = isSelected(answers, question, option);
+                  return (
                     <button
                       type="button"
                       key={option}
-                      onClick={() => updateText(question.id, option)}
-                      className={`option-button ${answers.dependence === option ? "selected" : ""}`}
+                      onClick={() => answer(question, option)}
+                      className={`option-button ${selected ? "selected" : ""}`}
                     >
                       {option}
                     </button>
-                  ))}
-                </div>
-              )}
-
-              {question.type === "checkbox" && (
-                <div className="option-grid two">
-                  {question.options.map((option) => {
-                    const values = answers[question.id];
-                    const selected = Array.isArray(values) && values.includes(option);
-                    return (
-                      <button
-                        type="button"
-                        key={option}
-                        onClick={() => toggleValue(question.id, option)}
-                        className={`option-button ${selected ? "selected" : ""}`}
-                      >
-                        {option}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <button type="button" onClick={next} className="paper-button primary">
-            {current === questions.length - 1 ? "求人票を発行する" : "次の質問へ"} →
+          <button type="button" onClick={next} disabled={!canGoNext()} className="paper-button primary">
+            {current === questions.length - 1 ? "退職を受理してもらう" : "次の質問へ"} →
           </button>
         </section>
       )}
@@ -449,39 +429,39 @@ export default function Home() {
         <section className="result">
           <div className="office-slip">
             <p className="office-kicker">未来の受付窓口</p>
-            <p className="office-number">発行済</p>
+            <p className="office-number">受理済</p>
           </div>
 
-          <h1 className="result-title">求人票が届きました。</h1>
+          <h1 className="result-title">退職を承りました。</h1>
           <p className="note">
-            これは本物の求人ではありません。
+            これは現実の退職代行ではありません。
             <br />
-            あなたの答えをもとに、これから増やしたい選択肢を求人票の形にしたものです。
+            あなたがもう続けなくていい生き方に、名前をつけるための診断です。
           </p>
 
           <article className="result-card">
             <div className="stamp">受理</div>
             <div className="card-head">
-              <p className="section-label">未来の自分より</p>
-              <p className="card-sub">fictional job posting</p>
+              <p className="section-label">{profile.title}</p>
+              <p className="card-sub">life resignation notice</p>
             </div>
-            <pre className="offer">{offer}</pre>
+            <pre className="offer">{notice}</pre>
           </article>
 
           <div className="actions">
-            <CopyButton text={offer}>コピーする</CopyButton>
+            <CopyButton text={notice}>コピーする</CopyButton>
             <CopyButton text={shareText}>Xでシェア文をコピー</CopyButton>
             <button type="button" onClick={restart} className="paper-button secondary">
-              もう一度作る
+              もう一度依頼する
             </button>
           </div>
 
           <section className="cta">
             <p className="section-label">次の手続き</p>
-            <h2>求人票を作ったあなたへ。</h2>
+            <h2>退職届を出したあなたへ。</h2>
             <p className="cta-text">
               {
-                "作った求人票は、はじめのメモです。\n次は、何を増やすかを決める番です。\n\n仕事・収入・家族・スキル・不安を整理して、次の選択肢を1枚のPDFにまとめる One More Option Map を準備しています。"
+                "やめたい生き方が見えたら、次は何を残して、何を増やすかを決める番です。\n\n時間・お金・人間関係・家族・休み方を整理して、明日からの小さな選択肢を1枚にまとめる One More Option Map を準備しています。"
               }
             </p>
             <a href="/map" className="cta-link">
