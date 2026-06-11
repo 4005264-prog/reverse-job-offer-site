@@ -132,56 +132,59 @@ const questions: Question[] = [
   }
 ];
 
-const shareText =
-  "人生の退職代行に、\nやめたい生き方の退職をお願いしました。\n\nもう、全部を背負わなくていい。\n明日から少しだけ、自分に戻る。\n\n#人生の退職代行";
-
 const targetProfiles: Record<string, { title: string; retired: string; reason: string; firstTask: string }> = {
   "SNSを見て、他人の人生と比べ続ける生き方": {
-    title: "比較残業から退勤する人",
-    retired: "他人の投稿を、自分の遅れの証拠にする勤務",
-    reason: "見なくてもいい人生まで見すぎて、あなたの今日が薄くなっていたため",
-    firstTask: "寝る前のSNSを15分だけ短くし、代わりに明日の予定を一つだけ見ること。"
+    title: "比較残業、退勤済",
+    retired: "他人の投稿を見て、自分にダメ出しする係",
+    reason: "誰かのハイライトを、自分の通知表にしなくていいから。",
+    firstTask: "寝る前、SNSを開く前に明日の予定を一つだけ見る。"
   },
   "コンビニや通販で、疲れをお金でごまかす生き方": {
-    title: "小さな浪費に休職届を出せる人",
-    retired: "疲れを全部、レジとカートに預ける勤務",
-    reason: "本当にほしかったのは物ではなく、少し休める時間だったため",
-    firstTask: "今日買う前に一度だけ立ち止まり、『これは休みの代わり？』と聞いてみること。"
+    title: "疲れ買い、退職済",
+    retired: "疲れを全部、レジとカートに預ける係",
+    reason: "本当にほしかったのは物じゃなくて、少し休める時間だったから。",
+    firstTask: "買う前に一度だけ、『これは休みの代わり？』と聞く。"
   },
   "元恋人や過去の失敗を、何度も頭の中で再生する生き方": {
-    title: "過去の再放送を終了できる人",
-    retired: "終わった場面を、毎晩もう一度見に行く勤務",
-    reason: "反省は終わっていて、これ以上あなたを責める必要がないため",
-    firstTask: "思い出しそうになったら、今日やる小さな予定を一つだけ声に出すこと。"
+    title: "過去の再放送、終了済",
+    retired: "終わった場面を、毎晩もう一度見に行く係",
+    reason: "反省はもう済んでいる。これ以上、自分を呼び出さなくていいから。",
+    firstTask: "思い出しそうになったら、今日やることを一つだけ声に出す。"
   },
   "仕事や学校の評価で、自分の価値を決める生き方": {
-    title: "評価表の外へ帰る人",
-    retired: "点数、肩書き、反応だけで自分を査定する勤務",
-    reason: "評価は一部の情報であって、あなたそのものではないため",
-    firstTask: "今日できたことを、誰かの評価抜きで一つだけメモすること。"
+    title: "評価表の外へ退勤",
+    retired: "点数、肩書き、反応だけで自分を査定する係",
+    reason: "評価は情報の一部。あなたそのものではないから。",
+    firstTask: "今日できたことを、誰の評価も入れずに一つだけメモする。"
   },
   "家族・恋人・友人の機嫌を、先回りして背負う生き方": {
-    title: "機嫌の係を辞める人",
-    retired: "相手の顔色を見て、自分の予定を後ろに下げる勤務",
-    reason: "やさしさと自己犠牲を、同じものにしなくていいため",
-    firstTask: "一つだけ、自分の予定を変えずに残すこと。"
+    title: "機嫌の係、退職済",
+    retired: "相手の顔色で、自分の予定を下げる係",
+    reason: "やさしさと自己犠牲は、同じものじゃないから。",
+    firstTask: "一つだけ、自分の予定をそのまま残す。"
   },
   "ちゃんと休まず、平気なふりを続ける生き方": {
-    title: "平気なふりを退職する人",
-    retired: "限界を感じても、まだ大丈夫と言い続ける勤務",
-    reason: "休むことは甘えではなく、明日を守る手続きだから",
-    firstTask: "今日は10分だけ、何もしない時間を予定として置くこと。"
+    title: "平気なふり、退職済",
+    retired: "限界なのに、まだ大丈夫と言い続ける係",
+    reason: "休むことは甘えじゃない。明日を守る手続きだから。",
+    firstTask: "10分だけ、何もしない時間を予定として置く。"
   },
   "子育てや家事を一人で抱え込み、助けを求めない生き方": {
-    title: "全部ひとり係を降りる人",
-    retired: "家庭のことを、黙って一人で回し続ける勤務",
-    reason: "家族を大切にすることと、自分を消すことは別だから",
-    firstTask: "一つだけ、具体的な家事や育児を誰かに頼むこと。"
+    title: "全部ひとり係、退職済",
+    retired: "家庭のことを、黙って一人で回し続ける係",
+    reason: "家族を大切にすることと、自分を消すことは別だから。",
+    firstTask: "一つだけ、具体的な家事や育児を誰かに渡す。"
   }
 };
 
 function selectedList(values: string[], fallback: string) {
   return values.length > 0 ? values.join("、") : fallback;
+}
+
+function compactList(values: string[], fallback: string) {
+  if (values.length === 0) return fallback;
+  if (values.length <= 2) return values.join("、");
+  return `${values[0]}、${values[1]}、ほか`;
 }
 
 function answerValue(answers: Answers, id: keyof Answers) {
@@ -199,62 +202,62 @@ function chooseProfile(answers: Answers) {
   return targetProfiles[answers.target] ?? targetProfiles[questions[0].options[0]];
 }
 
-function buildReason(answers: Answers) {
+function buildShareText(answers: Answers) {
   const profile = chooseProfile(answers);
-  const drains = selectedList(answers.drains, "毎日の小さな疲れ");
-  const relationships = selectedList(answers.relationships, "言葉にしづらい人間関係の負担");
   return [
-    profile.reason,
-    `あわせて、「${drains}」と「${relationships}」が、静かに心の余白を減らしていたため。`
+    "【退職受理されました】",
+    "",
+    `退職対象：${profile.retired}`,
+    "",
+    "もう、全部を背負わなくていい。",
+    "明日から少しだけ、自分に戻る。",
+    "",
+    "#人生の退職代行"
   ].join("\n");
 }
 
 function buildRetirementNotice(answers: Answers) {
   const profile = chooseProfile(answers);
-  const drains = selectedList(answers.drains, "毎日の小さな疲れ");
-  const relationships = selectedList(answers.relationships, "言葉にしづらい人間関係の負担");
-  const keep = selectedList(answers.keep, "自分のペース");
+  const drains = compactList(answers.drains, "毎日の小さな疲れ");
+  const relationships = compactList(answers.relationships, "人に合わせすぎる時間");
+  const keep = compactList(answers.keep, "自分のペース");
   const feeling = answers.feeling || "何もしていないのに疲れている感じ";
   const escape = answers.escape || "大丈夫なふりをして笑う";
   const tomorrow = answers.tomorrow || "ちゃんと休むことに罪悪感を持たない自分";
 
   return [
-    "退職受理通知",
+    "退職受理証明書",
     "",
-    "退職者：",
-    "今日までがんばってきたあなた",
+    "本日付で、",
+    "下記の生き方の退職を受理しました。",
     "",
     "退職対象：",
     profile.retired,
     "",
-    "退職理由：",
-    buildReason(answers),
+    "受理理由：",
+    profile.reason,
     "",
-    "本日付で終了する業務：",
-    `・「${feeling}」を、あなたの性格のせいにすること。`,
-    `・「${escape}」だけで、しんどさを処理しようとすること。`,
-    `・「${drains}」に、今日の残り時間を全部渡すこと。`,
+    "もう出勤しなくていい場所：",
+    `・${drains}`,
+    `・${relationships}`,
+    `・「${feeling}」を自分のせいにする会議`,
     "",
-    "引き継がなくていいもの：",
-    "・他人の人生の進み具合。",
-    "・返事が遅い理由の深読み。",
-    "・昔の自分への終わらないダメ出し。",
-    "・家庭や関係を守るために、自分だけが消える役目。",
+    "返却していいもの：",
+    "・他人の人生の進み具合",
+    "・返事が遅い理由の深読み",
+    "・過去の自分への終わらない説教",
+    `・「${escape}」だけで乗り切る役目`,
     "",
-    "残していくもの：",
-    `・${keep}。`,
-    `・「${tomorrow}」に戻りたいという、小さくて本当の希望。`,
-    "・ちゃんと疲れたと言っていい権利。",
+    "持って帰るもの：",
+    `・${keep}`,
+    `・${tomorrow}`,
+    "・ちゃんと疲れたと言っていい権利",
     "",
-    "退職後の最初の手続き：",
+    "明日の小さな手続き：",
     profile.firstTask,
     "",
-    "受付窓口：",
-    "未来の受付窓口",
-    "",
-    "備考：",
-    "これは現実の退職代行ではありません。",
-    "でも、やめたい生き方に名前をつけるための小さな手続きです。"
+    "受付印：",
+    "未来の受付窓口"
   ].join("\n");
 }
 
@@ -279,6 +282,7 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
   const notice = useMemo(() => buildRetirementNotice(answers), [answers]);
+  const shareText = useMemo(() => buildShareText(answers), [answers]);
   const question = questions[current];
   const profile = chooseProfile(answers);
   const progress = Math.round(((current + 1) / questions.length) * 100);
@@ -443,7 +447,7 @@ export default function Home() {
             <div className="stamp">受理</div>
             <div className="card-head">
               <p className="section-label">{profile.title}</p>
-              <p className="card-sub">life resignation notice</p>
+              <p className="card-sub">退職受理証明書</p>
             </div>
             <pre className="offer">{notice}</pre>
           </article>
