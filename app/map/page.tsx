@@ -1,16 +1,9 @@
 import MapApplicationForm from "./MapApplicationForm";
 
-const deliverables = [
-  "やめたい生き方と、残したいものの整理",
-  "時間・お金・人間関係の小さな見直し",
-  "明日から増やせる選択肢の候補",
-  "最初の7日間にできる小さな手続き"
-];
-
 const steps = [
-  ["1", "このページで申込", "いま退職したい生き方と、残したいものを送ってください。"],
-  ["2", "受付窓口に届く", "内容はメールで通知され、あとから落ち着いて読める形で届きます。"],
-  ["3", "PDFで受け取り", "大きな決断を急がせず、明日から少し軽くなる1枚のMapとしてお返しします。"]
+  ["1", "申込フォームを送る", "ニックネームとメールアドレス、整理したいことを送ります。"],
+  ["2", "メールで確認する", "内容を見て、必要な確認があればメールで連絡します。"],
+  ["3", "個別PDFを受け取る", "明日から何を残すか、1枚のMapにしてお返しします。"]
 ];
 
 export default function MapPage() {
@@ -26,26 +19,52 @@ export default function MapPage() {
         </div>
 
         <p className="section-label map-label">One More Option Map</p>
-        <h1 className="map-title">退職したあとに残すものを、1枚に整理します。</h1>
+        <h1 className="map-title">やめたい生き方のあとに、何を残すか。</h1>
         <p className="map-lead">
-          退職届で見えた不安や希望を、時間・お金・人間関係・家族・休み方に分けて整理します。
+          One More Option Mapは、あなたの「退職したい生き方」と「本当は残したいもの」を整理する個別PDFです。
           <br />
-          やめたい生き方を手放したあと、明日から何を残すかを決めるための個別PDFです。
+          大きな決断を急がせるものではありません。明日から少し軽くなるための、1枚の地図を作ります。
         </p>
 
-        <section className="map-section">
-          <h2>お渡しするもの</h2>
-          <div className="map-list">
-            {deliverables.map((item) => (
-              <div key={item} className="map-list-item">
-                {item}
-              </div>
-            ))}
+        <section className="map-section plain">
+          <h2>このPDFで整理すること</h2>
+          <ul className="map-simple-list">
+            <li>いま退職したい生き方</li>
+            <li>手放していい思考や習慣</li>
+            <li>時間・お金・人間関係で見直すこと</li>
+            <li>明日から7日間でできる小さな行動</li>
+          </ul>
+        </section>
+
+        <section className="pdf-sample" aria-labelledby="pdf-sample-title">
+          <div className="pdf-sample-copy">
+            <p className="section-label">PDFサンプル</p>
+            <h2 id="pdf-sample-title">こんな形で届きます。</h2>
+            <p>
+              長い診断レポートではなく、あとから見返しやすい1枚です。読むだけで、次にやることが一つ見えるように整えます。
+            </p>
+          </div>
+
+          <div className="sample-sheet" aria-label="PDFサンプルのプレビュー">
+            <p className="sample-kicker">One More Option Map</p>
+            <h3>退職後に残すもの</h3>
+            <div className="sample-row">
+              <span>退職する生き方</span>
+              <p>SNSを見て、自分にダメ出しする時間</p>
+            </div>
+            <div className="sample-row">
+              <span>残すもの</span>
+              <p>眠れる夜。自分のペース。大切な人との時間。</p>
+            </div>
+            <div className="sample-row">
+              <span>最初の7日間</span>
+              <p>寝る前にスマホを置く日を、まず1日だけ作る。</p>
+            </div>
           </div>
         </section>
 
         <section className="map-section">
-          <h2>進み方</h2>
+          <h2>申込から受け取りまで</h2>
           <div className="map-steps">
             {steps.map(([number, title, text]) => (
               <div key={number} className="map-step">
@@ -57,14 +76,6 @@ export default function MapPage() {
               </div>
             ))}
           </div>
-        </section>
-
-        <section className="map-section quiet">
-          <h2>これは、現実の退職代行ではありません。</h2>
-          <p>
-            会社や学校を辞める手続きを代行するものではありません。
-            まずは、続けたくない思考や習慣に名前をつけて、次に何を増やせるのかを落ち着いて見るための整理です。
-          </p>
         </section>
 
         <MapApplicationForm />
